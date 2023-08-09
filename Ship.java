@@ -40,6 +40,7 @@ public class Ship implements IShip{
 			this.currentPort=p;
 			return true;
 		}else {
+			System.out.println("Not enough fuel available");
 			return false;
 		}
 	}
@@ -55,6 +56,7 @@ public class Ship implements IShip{
 		}
 		if(containerFound) {
 			if(cont.weight>this.totalWeightCapacity) {
+				System.out.println("Container weight is very high");
 				return false;
 			}else {
 				if(cont.type()=="basic") {
@@ -65,6 +67,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
+						System.out.println("Invalid maximum number of containers");
 						return false;
 					}
 				}else if(cont.type()=="heavy") {
@@ -76,6 +79,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
+						System.out.println("Invalid maximum number of heavy containers");
 						return false;
 					}
 					
@@ -89,6 +93,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
+						System.out.println("Invalid maximum number of refrigerated containers");
 						return false;
 					}
 				}else {
@@ -101,11 +106,13 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
+						System.out.println("Invalid maximum number of liquid containers");
 						return false;
 					}
 				}
 			}
 		}else {
+			System.out.println("Container not found");
 			return false;
 		}
 		
@@ -163,6 +170,7 @@ public class Ship implements IShip{
 				return true;
 			}
 		}else {
+			System.out.println("Container not found");
 			return false;
 		}
 	}
