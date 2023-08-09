@@ -1,5 +1,4 @@
 package shippingApplication;
-import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -7,9 +6,9 @@ public class Port implements IPort{
 	
 	int id;
 	double x,y;
-	List<Container> containers = new ArrayList<Container>();
-	List<Ship> history = new ArrayList<Ship>();
-	List<Ship> current = new ArrayList<Ship>();
+	ArrayList<Container> containers = new ArrayList<Container>();
+	ArrayList<Ship> history = new ArrayList<Ship>();
+	ArrayList<Ship> current = new ArrayList<Ship>();
 	
 	@Override
 	public void incomingShip(Ship s) {
@@ -36,16 +35,19 @@ public class Port implements IPort{
 	}
 	
 	Port(int id, double x, double y){
+
 		this.id = id;
 		this.x = x;
 		this.y =y;
 	}
 	
 	static double degreesToRadians(double degrees) {
+
 		return degrees * Math.PI / 180.0;
 	}
 	
 	double getDistance(Port other) {
+
 		
 		double earthRadiusKm = 6371;
 		

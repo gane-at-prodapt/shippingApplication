@@ -1,7 +1,6 @@
 package shippingApplication;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Ship implements IShip{
 	
@@ -19,6 +18,7 @@ public class Ship implements IShip{
 	ArrayList<Container> containers = new ArrayList<Container>();
 	
 	private double fuelRequired(double distance) {
+
 		double fuelReq = 0;
 		for(Container c : containers) {
 			fuelReq+=c.consumption();
@@ -31,6 +31,7 @@ public class Ship implements IShip{
 	
 	@Override
 	public boolean sailTo(Port p) {
+
 		double fuelReq = this.fuelRequired(this.currentPort.getDistance(p));
 		if(fuelReq>=this.fuel) {
 			this.currentPort.outgoingShip(this);
@@ -58,6 +59,7 @@ public class Ship implements IShip{
 			}else {
 				if(cont.type()=="basic") {
 					if(this.maxNumberOfAllContainers>0) {
+						this.currentPort.containers.remove(cont);
 						this.containers.add(cont); 
 						this.maxNumberOfAllContainers--;
 						this.totalWeightCapacity-=cont.weight;
@@ -67,6 +69,7 @@ public class Ship implements IShip{
 					}
 				}else if(cont.type()=="heavy") {
 					if(this.maxNumberOfHeavyContainers>0) {
+						this.currentPort.containers.remove(cont);
 						this.containers.add(cont);
 						this.maxNumberOfAllContainers--;
 						this.maxNumberOfHeavyContainers--;
@@ -78,6 +81,7 @@ public class Ship implements IShip{
 					
 				}else if(cont.type()=="refrigerated") {
 					if(this.maxNumberOfRefrigeratedContainers>0) {
+						this.currentPort.containers.remove(cont);
 						this.containers.add(cont);
 						this.maxNumberOfAllContainers--;
 						this.maxNumberOfHeavyContainers--;
@@ -89,6 +93,7 @@ public class Ship implements IShip{
 					}
 				}else {
 					if(this.maxNumberOfLiquidContainers>0) {
+						this.currentPort.containers.remove(cont);
 						this.containers.add(cont);
 						this.maxNumberOfAllContainers--;
 						this.maxNumberOfHeavyContainers--;
@@ -113,6 +118,7 @@ public class Ship implements IShip{
 	
 	@Override
 	public boolean unLoad(Container cont) {
+
 		boolean containerFound = false;
 		for(Container c : this.containers) {
 			if(cont.equals(c)) {
@@ -122,8 +128,8 @@ public class Ship implements IShip{
 		}
 		if(containerFound) {
 			if(cont.type()=="basic") {
-				
-				this.containers.remove(cont); 
+				this.containers.remove(cont);
+				this.currentPort.containers.add(cont);
 				this.maxNumberOfAllContainers++;
 				this.totalWeightCapacity+=cont.weight;
 				return true;
@@ -131,6 +137,7 @@ public class Ship implements IShip{
 			}else if(cont.type()=="heavy") {
 				
 				this.containers.remove(cont);
+				this.currentPort.containers.add(cont);
 				this.maxNumberOfAllContainers++;
 				this.maxNumberOfHeavyContainers++;
 				this.totalWeightCapacity+=cont.weight;
@@ -139,6 +146,7 @@ public class Ship implements IShip{
 			}else if(cont.type()=="refrigerated") {
 				
 				this.containers.remove(cont);
+				this.currentPort.containers.add(cont);
 				this.maxNumberOfAllContainers++;
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfRefrigeratedContainers++;
@@ -146,7 +154,8 @@ public class Ship implements IShip{
 				return true;
 				
 			}else {
-				this.containers.add(cont);
+				this.containers.remove(cont);
+				this.currentPort.containers.add(cont);
 				this.maxNumberOfAllContainers++;
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfLiquidContainers++;
