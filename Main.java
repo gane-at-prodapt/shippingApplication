@@ -37,19 +37,20 @@ public class Main {
 	
 	static void displayPorts(){
 		for(Port p: ports) {
-			System.out.println("port "+p.id);
+			System.out.println("port p"+p.id);
 			System.out.print("current ships: ");
 			for(Ship s : p.current) {
-				System.out.print(s.id+" ");
+				System.out.print("s"+s.id+" ");
 			}
 			System.out.println();
 			System.out.print("ship history: ");
 			for(Ship s : p.history) {
-				System.out.print(s.id+" ");
+				System.out.print("s"+s.id+" ");
 			}
 			System.out.println();
+			System.out.print("containers: ");
 			for(Container c : p.containers) {
-				System.out.print(c.id+" ");
+				System.out.print("c"+c.id+" ");
 			}
 			System.out.println();
 		}
@@ -57,11 +58,12 @@ public class Main {
 	}
 	static void displayShips() {
 		for(Ship s:ships) {
-			System.out.println("Ship"+s.id);
+			System.out.println("Ship s"+s.id);
 			System.out.println("fuel: "+s.fuel);
-			System.out.println("port: "+s.currentPort);
+			System.out.println("port: p"+s.currentPort.id);
+			System.out.print("containers: ");
 			for(Container c : s.containers) {
-				System.out.print(c.id+" ");
+				System.out.print("c"+c.id+" ");
 			}
 			System.out.println();
 			
@@ -104,15 +106,15 @@ public class Main {
 					int weight=sc.nextInt();
 					int cont_ID;
 					if(containers.size()==0) {
-						cont_ID = containers.get(containers.size()-1).id+1;
-					}else {
 						cont_ID = 0;
+					}else {
+						cont_ID = containers.get(containers.size()-1).id+1;
 					}
 					
 					if(weight<=3000) {
 						containers.add(new BasicContainer(cont_ID,weight));
 						p.containers.add(new BasicContainer(cont_ID,weight));
-						System.out.println("Port successfully created.");
+						// todo change System.out.println("Port successfully created.");
 						
 					}else {
 						System.out.println("This is a heavy container, Enter its type(R - Refrigerated / L - Liquid)"
@@ -134,7 +136,12 @@ public class Main {
 					break;
 				}
 				case 2:{
-					int ship_ID=ships.get(ships.size()-1).id+1;
+					int ship_ID;
+					if(ships.size()==0) {
+						ship_ID=0;
+					}else {
+						ship_ID=ships.get(ships.size()-1).id+1;
+					}
 					System.out.println("Enter the port ID in which the ship is present:- ");
 					int port_ID=sc.nextInt();
 					Port p = getPortById(port_ID);
@@ -154,12 +161,17 @@ public class Main {
 					int maximumNumberOfLiquidContainers=sc.nextInt();
 					System.out.println("Enter FuelConsumption per kilometer:- ");
 					double fuelConsumptionPerKM=sc.nextDouble();
-					ships.add(new Ship(ship_ID,ports.get(port_ID),totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
+					ships.add(new Ship(ship_ID,p,totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
 					System.out.println("Ship "+ship_ID+"created successfully");
 					break;
 				}
 				case 3: {
-					int port_ID=ports.get(ports.size()-1).id+1;
+					int port_ID;
+					if(ports.size()==0) {
+						port_ID=0;
+					}else {
+						port_ID=ports.get(ports.size()-1).id+1;
+					}
 					System.out.println("Enter the latitude: ");
 					double x=sc.nextDouble();
 					System.out.println("Enter the longitude: ");
