@@ -35,6 +35,39 @@ public class Main {
 		return null;
 	}
 	
+	static void displayPorts(){
+		for(Port p: ports) {
+			System.out.println("port "+p.id);
+			System.out.print("current ships: ");
+			for(Ship s : p.current) {
+				System.out.print(s.id+" ");
+			}
+			System.out.println();
+			System.out.print("ship history: ");
+			for(Ship s : p.history) {
+				System.out.print(s.id+" ");
+			}
+			System.out.println();
+			for(Container c : p.containers) {
+				System.out.print(c.id+" ");
+			}
+			System.out.println();
+		}
+	
+	}
+	static void displayShips() {
+		for(Ship s:ships) {
+			System.out.println("Ship"+s.id);
+			System.out.println("fuel: "+s.fuel);
+			System.out.println("port: "+s.currentPort);
+			for(Container c : s.containers) {
+				System.out.print(c.id+" ");
+			}
+			System.out.println();
+			
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		Scanner sc=new Scanner(System.in);
@@ -115,13 +148,13 @@ public class Main {
 					int maxNumberOfAllContainers=sc.nextInt();
 					System.out.println("Enter maximum number of heavy containers:- ");
 					int maxNumberOfHeavyContainers=sc.nextInt();
-					System.out.println("Enter maximum number of referigerated containers:- ");
-					int maximumNumberOfReferigeratedContainers=sc.nextInt();
+					System.out.println("Enter maximum number of refrigerated containers:- ");
+					int maximumNumberOfRefrigeratedContainers=sc.nextInt();
 					System.out.println("Enter maximum number of liquid containers:- ");
 					int maximumNumberOfLiquidContainers=sc.nextInt();
 					System.out.println("Enter FuelConsumption per kilometer:- ");
 					double fuelConsumptionPerKM=sc.nextDouble();
-					ships.add(new Ship(ship_ID,ports.get(port_ID),totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfReferigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
+					ships.add(new Ship(ship_ID,ports.get(port_ID),totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
 					System.out.println("Ship "+ship_ID+"created successfully");
 					break;
 				}
@@ -218,6 +251,24 @@ public class Main {
 					double fuel=sc.nextDouble();
 					s.reFuel(fuel);
 					System.out.println("The ship "+ship_ID+" refueled successfully");
+					break;
+				}
+				case 8: {
+					if(ports.size()==0) {
+						System.out.println("No ports available");
+					}
+					else {
+					displayPorts();
+					}
+					break;
+				}
+				case 9:{
+					if(ships.size()==0) {
+						System.out.println("No ships available");
+					}
+					else {
+					displayShips();
+					}
 					break;
 				}
 				case 10:{
