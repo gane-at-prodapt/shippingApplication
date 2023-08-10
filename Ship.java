@@ -136,7 +136,7 @@ public class Ship implements IShip{
 				}
 			}
 		}else {
-			System.out.println("Container not found");
+			System.out.println("Container not found in port "+this.currentPort.id);
 			return false;
 		}
 		
@@ -144,6 +144,8 @@ public class Ship implements IShip{
 	
 	@Override
 	public void reFuel(double newFuel) {
+		System.out.println("Current fuel level:- "+this.fuel);
+		System.out.println("Fuelling the ship now!!!");
 		this.fuel+=newFuel;
 	}
 	

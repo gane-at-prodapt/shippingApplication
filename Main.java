@@ -79,9 +79,9 @@ public class Main {
 		boolean flag=true;
 		do{
 			System.out.println("Menu:");
-			System.out.println("1)Create a container");
+			System.out.println("1)Create a port");
 			System.out.println("2)Create a ship");
-			System.out.println("3)Create a port");
+			System.out.println("3)Create a container");
 			System.out.println("4)Load container");
 			System.out.println("5)Unload a container");
 			System.out.println("6)Sail Ship to another port");
@@ -94,46 +94,20 @@ public class Main {
 			switch(n)
 			{
 				case 1:{
-					
-					System.out.println("Enter the port ID: ");
-					int port_ID=sc.nextInt();
-					Port p = getPortById(port_ID);
-					if(p==null) {
-						System.out.println("Port "+port_ID+" not found!");
-						break;
-					}  
-					System.out.println("Enter the weight for the container: ");
-					int weight=sc.nextInt();
-					int cont_ID;
-					if(containers.size()==0) {
-						cont_ID = 0;
+					int port_ID;
+					if(ports.size()==0) {
+						port_ID=0;
 					}else {
-						cont_ID = containers.get(containers.size()-1).id+1;
+						port_ID=ports.get(ports.size()-1).id+1;
 					}
-					
-					if(weight<=3000) {
-						containers.add(new BasicContainer(cont_ID,weight));
-						p.containers.add(new BasicContainer(cont_ID,weight));
-						// todo change System.out.println("Port successfully created.");
-						
-					}else {
-						System.out.println("This is a heavy container, Enter its type(R - Refrigerated / L - Liquid)"
-								+ " Press enter to continue as normal heavy container");
-						String type = sc.next();
-						if(type.isBlank()) {
-							containers.add(new HeavyContainer(cont_ID,weight));
-							p.containers.add(new HeavyContainer(cont_ID,weight));
-						}else if(type.equalsIgnoreCase("R")) {
-							containers.add(new RefrigeratedContainer(cont_ID,weight));
-							p.containers.add(new RefrigeratedContainer(cont_ID,weight));
-						}else if(type.equalsIgnoreCase("L")) {
-							containers.add(new LiquidContainer(cont_ID,weight));
-							p.containers.add(new LiquidContainer(cont_ID,weight));
-						}else {
-							System.out.println("Invalid response, try again!");
-						}
-					}
+					System.out.println("Enter the latitude: ");
+					double x=sc.nextDouble();
+					System.out.println("Enter the longitude: ");
+					double y=sc.nextDouble();
+					ports.add(new Port(port_ID,x,y));
+					System.out.println("Port "+port_ID+" created in "+x+" latitude "+y+" longitude successfully ");
 					break;
+					
 				}
 				case 2:{
 					int ship_ID;
@@ -162,22 +136,54 @@ public class Main {
 					System.out.println("Enter FuelConsumption per kilometer:- ");
 					double fuelConsumptionPerKM=sc.nextDouble();
 					ships.add(new Ship(ship_ID,p,totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
-					System.out.println("Ship "+ship_ID+"created successfully");
+					System.out.println("Ship "+ship_ID+" created in the port "+port_ID+" successfully");
 					break;
 				}
 				case 3: {
-					int port_ID;
-					if(ports.size()==0) {
-						port_ID=0;
+					System.out.println("Enter the port ID: ");
+					int port_ID=sc.nextInt();
+					Port p = getPortById(port_ID);
+					if(p==null) {
+						System.out.println("Port "+port_ID+" not found!");
+						break;
+					}  
+					System.out.println("Enter the weight for the container: ");
+					int weight=sc.nextInt();
+					int cont_ID;
+					if(containers.size()==0) {
+						cont_ID = 0;
 					}else {
-						port_ID=ports.get(ports.size()-1).id+1;
+						cont_ID = containers.get(containers.size()-1).id+1;
 					}
-					System.out.println("Enter the latitude: ");
-					double x=sc.nextDouble();
-					System.out.println("Enter the longitude: ");
-					double y=sc.nextDouble();
-					ports.add(new Port(port_ID,x,y));
-					System.out.println("Port "+port_ID+" added successfully");
+					
+					if(weight<=3000) {
+						containers.add(new BasicContainer(cont_ID,weight));
+						p.containers.add(new BasicContainer(cont_ID,weight));
+						System.out.println("Basic container " +cont_ID+ " successfully created.");
+						
+					}else {
+						String type;
+						do {
+							System.out.println("This is a heavy container, Enter its type(R - Refrigerated / L - Liquid)"
+									+ " Enter H to continue as normal heavy container");
+							type = sc.next();
+							if(type.equalsIgnoreCase("H")) {
+								containers.add(new HeavyContainer(cont_ID,weight));
+								p.containers.add(new HeavyContainer(cont_ID,weight));
+								System.out.println("Normal heavy container "+cont_ID+" successfully created");
+							}else if(type.equalsIgnoreCase("R")) {
+								containers.add(new RefrigeratedContainer(cont_ID,weight));
+								p.containers.add(new RefrigeratedContainer(cont_ID,weight));
+								System.out.println("Refrigerated container "+cont_ID+" successfully created");
+							}else if(type.equalsIgnoreCase("L")) {
+								containers.add(new LiquidContainer(cont_ID,weight));
+								p.containers.add(new LiquidContainer(cont_ID,weight));
+								System.out.println("Liquid container "+cont_ID+" successfully created");
+							}else {
+								System.out.println("Invalid response, try again!");
+							}
+						}while(!type.equalsIgnoreCase("H") && !type.equalsIgnoreCase("R") && !type.equalsIgnoreCase("L"));
+					}
 					break;
 				}
 				case 4: {
@@ -262,7 +268,7 @@ public class Main {
 					System.out.println("Enter the quantity of fuel:- ");
 					double fuel=sc.nextDouble();
 					s.reFuel(fuel);
-					System.out.println("The ship "+ship_ID+" refueled successfully");
+					System.out.println("The ship "+ship_ID+" refueled successfully, the current fuel amount:- "+s.fuel);
 					break;
 				}
 				case 8: {
@@ -285,6 +291,8 @@ public class Main {
 				}
 				case 10:{
 					flag = false;
+					System.out.println("*******Thank you*******");
+					System.out.println("*******Program terminating*******");
 					break;
 				}
 				default:{
