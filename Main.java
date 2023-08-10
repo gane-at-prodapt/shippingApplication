@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class Main {
 	
-	static ArrayList<Ship> ships=new ArrayList<Ship>();
-	static ArrayList<Port> ports=new ArrayList<Port>();
-	static ArrayList<Container> containers = new ArrayList<Container>();
+	private static ArrayList<Ship> ships=new ArrayList<Ship>();
+	private static ArrayList<Port> ports=new ArrayList<Port>();
+	private static ArrayList<Container> containers = new ArrayList<Container>();
 	
-	static Port getPortById(int id) {
+	private static Port getPortById(int id) {
 		for(Port p : ports) {
 			if(p.id==id) {
 				return p;
@@ -17,7 +17,7 @@ public class Main {
 		return null;
 	}
 	
-	static Ship getShipById(int id) {
+	private static Ship getShipById(int id) {
 		for(Ship s : ships) {
 			if(s.id==id) {
 				return s;
@@ -26,7 +26,7 @@ public class Main {
 		return null;
 	}
 	
-	static Container getContainerById(int id) {
+	private static Container getContainerById(int id) {
 		for(Container c : containers) {
 			if(c.id==id) {
 				return c;
@@ -35,7 +35,7 @@ public class Main {
 		return null;
 	}
 	
-	static void displayPorts(){
+	private static void displayPorts(){
 		for(Port p: ports) {
 			System.out.println("port p"+p.id);
 			System.out.print("current ships: ");
@@ -56,7 +56,7 @@ public class Main {
 		}
 	
 	}
-	static void displayShips() {
+	private static void displayShips() {
 		for(Ship s:ships) {
 			System.out.println("Ship s"+s.id);
 			System.out.println("fuel: "+s.fuel);
