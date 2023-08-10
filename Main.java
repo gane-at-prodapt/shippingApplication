@@ -100,12 +100,14 @@ public class Main {
 					}else {
 						port_ID=ports.get(ports.size()-1).id+1;
 					}
+					System.out.println("Enter port name:");
+					String name=sc.next();
 					System.out.println("Enter the latitude: ");
 					double x=sc.nextDouble();
 					System.out.println("Enter the longitude: ");
 					double y=sc.nextDouble();
-					ports.add(new Port(port_ID,x,y));
-					System.out.println("Port "+port_ID+" created in "+x+" latitude "+y+" longitude successfully ");
+					ports.add(new Port(port_ID,name,x,y));
+					System.out.println("Port "+name+" added successfully, \nport "+name+"coordinates: ("+x+", "+y+")");
 					break;
 					
 				}
@@ -116,27 +118,29 @@ public class Main {
 					}else {
 						ship_ID=ships.get(ships.size()-1).id+1;
 					}
+					System.out.println("Enter ship name: ");
+					String name = sc.next();
 					System.out.println("Enter the port ID in which the ship is present:- ");
 					int port_ID=sc.nextInt();
 					Port p = getPortById(port_ID);
 					if(p==null) {
-						System.out.println("Port "+port_ID+" not found!");
+						System.out.println("Port with id "+port_ID+" not found!");
 						break;
 					}  
-					System.out.println("Enter the total weight capacity:- ");
+					System.out.println("Enter the total weight capacity: ");
 					int totalWeightCapacity=sc.nextInt();
-					System.out.println("Enter maximum number of containers:- ");
+					System.out.println("Enter maximum number of containers: ");
 					int maxNumberOfAllContainers=sc.nextInt();
-					System.out.println("Enter maximum number of heavy containers:- ");
+					System.out.println("Enter maximum number of heavy containers: ");
 					int maxNumberOfHeavyContainers=sc.nextInt();
-					System.out.println("Enter maximum number of refrigerated containers:- ");
+					System.out.println("Enter maximum number of refrigerated containers: ");
 					int maximumNumberOfRefrigeratedContainers=sc.nextInt();
-					System.out.println("Enter maximum number of liquid containers:- ");
+					System.out.println("Enter maximum number of liquid containers: ");
 					int maximumNumberOfLiquidContainers=sc.nextInt();
-					System.out.println("Enter FuelConsumption per kilometer:- ");
+					System.out.println("Enter FuelConsumption per kilometer: ");
 					double fuelConsumptionPerKM=sc.nextDouble();
-					ships.add(new Ship(ship_ID,p,totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
-					System.out.println("Ship "+ship_ID+" created in the port "+port_ID+" successfully");
+					ships.add(new Ship(ship_ID,name,p,totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
+					System.out.println("Ship "+name+" created in the port "+p.name+" successfully");
 					break;
 				}
 				case 3: {
@@ -144,7 +148,7 @@ public class Main {
 					int port_ID=sc.nextInt();
 					Port p = getPortById(port_ID);
 					if(p==null) {
-						System.out.println("Port "+port_ID+" not found!");
+						System.out.println("Port with id "+port_ID+" not found!");
 						break;
 					}  
 					System.out.println("Enter the weight for the container: ");
@@ -159,7 +163,7 @@ public class Main {
 					if(weight<=3000) {
 						containers.add(new BasicContainer(cont_ID,weight));
 						p.containers.add(new BasicContainer(cont_ID,weight));
-						System.out.println("Basic container " +cont_ID+ " successfully created.");
+						System.out.println("Basic container " +cont_ID+ " successfully created in port "+p.name);
 						
 					}else {
 						String type;
@@ -170,15 +174,15 @@ public class Main {
 							if(type.equalsIgnoreCase("H")) {
 								containers.add(new HeavyContainer(cont_ID,weight));
 								p.containers.add(new HeavyContainer(cont_ID,weight));
-								System.out.println("Normal heavy container "+cont_ID+" successfully created");
+								System.out.println("Normal heavy container "+cont_ID+" successfully created in port "+p.name);
 							}else if(type.equalsIgnoreCase("R")) {
 								containers.add(new RefrigeratedContainer(cont_ID,weight));
 								p.containers.add(new RefrigeratedContainer(cont_ID,weight));
-								System.out.println("Refrigerated container "+cont_ID+" successfully created");
+								System.out.println("Refrigerated container "+cont_ID+" successfully created in port "+p.name);
 							}else if(type.equalsIgnoreCase("L")) {
 								containers.add(new LiquidContainer(cont_ID,weight));
 								p.containers.add(new LiquidContainer(cont_ID,weight));
-								System.out.println("Liquid container "+cont_ID+" successfully created");
+								System.out.println("Liquid container "+cont_ID+" successfully created in port"+p.name);
 							}else {
 								System.out.println("Invalid response, try again!");
 							}
@@ -191,19 +195,19 @@ public class Main {
 					int ship_ID=sc.nextInt();
 					Ship s = getShipById(ship_ID);
 					if(s==null) {
-						System.out.println("Ship "+ship_ID+" not found!");
+						System.out.println("Ship with id "+ship_ID+" not found!");
 						break;
 					}
 					System.out.println("Enter the container ID that needs to be loaded:- ");
 					int cont_ID=sc.nextInt();
 					Container c = getContainerById(cont_ID);
 					if(c==null) {
-						System.out.println("Container "+cont_ID+" not found!");
+						System.out.println("Container with id"+cont_ID+" not found!");
 						break;
 					}
 					boolean isLoaded = s.load(c);
 					if(isLoaded) {
-						System.out.println("The container "+cont_ID+" is loaded into the ship "+ship_ID+" successfully");
+						System.out.println("The container "+cont_ID+" is loaded into the ship "+s.name+" successfully");
 					}else {
 						System.out.println("Loading unsuccessful!");
 					}
@@ -227,7 +231,7 @@ public class Main {
 					}
 					boolean isUnLoaded = s.unLoad(c);
 					if(isUnLoaded) {
-						System.out.println("The container "+cont_ID+" is unloaded from the ship "+ship_ID+" successfully");
+						System.out.println("The container "+cont_ID+" is unloaded from the ship "+s.name+" successfully");
 					}else {
 						System.out.println("Unloading unsuccessful!");
 					}
@@ -251,7 +255,7 @@ public class Main {
 					}  
 					boolean isSailed = s.sailTo(p);
 					if(isSailed) {
-						System.out.println("Ship "+ship_ID+" departed to the other port "+port_ID);
+						System.out.println("Ship "+s.name+" departed to the other port "+p.name);
 					}else {
 						System.out.println("Sailing unsucessful!");
 					}
@@ -268,7 +272,7 @@ public class Main {
 					System.out.println("Enter the quantity of fuel:- ");
 					double fuel=sc.nextDouble();
 					s.reFuel(fuel);
-					System.out.println("The ship "+ship_ID+" refueled successfully, the current fuel amount:- "+s.fuel);
+					System.out.println("The ship "+s.name+" refueled successfully, the current fuel amount:- "+s.fuel);
 					break;
 				}
 				case 8: {

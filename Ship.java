@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Ship implements IShip{
 	
 	int id;
+	String name;
 	double fuel=0;
 	Port currentPort;
 	
@@ -44,7 +45,7 @@ public class Ship implements IShip{
 			return false;
 		}
 	}
-	
+		
 	@Override
 	public boolean load(Container cont) {
 		boolean containerFound = false;
@@ -202,6 +203,7 @@ public class Ship implements IShip{
 	}
 	
 	public Ship(int id,
+			String name,
 			Port p,
 			int totalWeightCapacity,
 			int maxNumberOfAllContainers,
@@ -212,6 +214,7 @@ public class Ship implements IShip{
 		
 		this.id = id;
 		this.currentPort = p;
+		this.name = name;
 		
 		this.currentPort.current.add(this);
 		

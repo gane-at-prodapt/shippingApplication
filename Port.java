@@ -5,6 +5,7 @@ import java.lang.Math;
 public class Port implements IPort{
 	
 	int id;
+	String name;
 	double x,y;
 	ArrayList<Container> containers = new ArrayList<Container>();
 	ArrayList<Ship> history = new ArrayList<Ship>();
@@ -30,9 +31,10 @@ public class Port implements IPort{
 		history.add(s);
 	}
 	
-	Port(int id, double x, double y){
+	Port(int id, String name, double x, double y){
 
 		this.id = id;
+		this.name=name;
 		this.x = x;
 		this.y =y;
 	}
