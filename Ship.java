@@ -15,7 +15,6 @@ public class Ship implements IShip{
 	int maxNumberOfRefrigeratedContainers;
 	int maxNumberOfLiquidContainers;
 	double fuelConsumptionPerKM;
-	
 	ArrayList<Container> containers = new ArrayList<Container>();
 	
 	private double fuelRequired(double distance) {
@@ -25,23 +24,29 @@ public class Ship implements IShip{
 			fuelReq+=c.consumption();
 		}
 		
-		return (distance+fuelReq)*this.fuelConsumptionPerKM;
+		return (distance*fuelReq)*this.fuelConsumptionPerKM;
 		
 	}
 	
 	
 	@Override
 	public boolean sailTo(Port p) {
-
+		if(this.id==p.id) {
+			System.out.println("Point of departure and destination should not be same");
+			return false;
+		}
 		double fuelReq = this.fuelRequired(this.currentPort.getDistance(p));
 		if(this.fuel>=fuelReq) {
 			this.currentPort.outgoingShip(this);
 			p.incomingShip(this);
+			for(Container c : this.containers) {
+				c.bill+=fuel*((double)c.weight/this.totalWeightCapacity);
+			}
 			this.fuel-=fuelReq;
 			this.currentPort=p;
 			return true;
 		}else {
-			System.out.println("Not enough fuel available, Refuel "+(fuelReq-this.fuel)+" amount of fuel");
+			System.out.println("Not enough fuel available, Refuel "+String.format("%.2f",(fuelReq-this.fuel))+" amount of fuel");
 			return false;
 		}
 	}
@@ -161,6 +166,7 @@ public class Ship implements IShip{
 			}
 		}
 		if(containerFound) {
+			
 			if(cont.type()=="basic") {
 				this.containers.remove(cont);
 				this.currentPort.containers.add(cont);
@@ -175,6 +181,7 @@ public class Ship implements IShip{
 				this.maxNumberOfAllContainers++;
 				this.maxNumberOfHeavyContainers++;
 				this.totalWeightCapacity+=cont.weight;
+	
 				return true;
 				
 			}else if(cont.type()=="refrigerated") {
@@ -185,6 +192,7 @@ public class Ship implements IShip{
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfRefrigeratedContainers++;
 				this.totalWeightCapacity+=cont.weight;
+	
 				return true;
 				
 			}else {
@@ -194,6 +202,7 @@ public class Ship implements IShip{
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfLiquidContainers++;
 				this.totalWeightCapacity+=cont.weight;
+
 				return true;
 			}
 		}else {

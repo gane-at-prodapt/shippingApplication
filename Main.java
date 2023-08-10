@@ -37,35 +37,38 @@ public class Main {
 	
 	private static void displayPorts(){
 		for(Port p: ports) {
-			System.out.println("port p"+p.id);
-			System.out.print("current ships: ");
+			System.out.println("port "+p.name);
+			System.out.println("port id: "+p.id);
+			System.out.print("current ships: [");
 			for(Ship s : p.current) {
-				System.out.print("s"+s.id+" ");
+				System.out.print("{ ship id: "+s.id+", ship name: "+s.name+" } ");
 			}
-			System.out.println();
-			System.out.print("ship history: ");
+			System.out.println("]");
+			System.out.print("ship history: [");
 			for(Ship s : p.history) {
-				System.out.print("s"+s.id+" ");
+				System.out.print("{ ship id: "+s.id+", ship name: "+s.name+" } ");
 			}
-			System.out.println();
-			System.out.print("containers: ");
+			System.out.println("]");
+			System.out.print("containers: [");
 			for(Container c : p.containers) {
-				System.out.print("c"+c.id+" ");
+				System.out.print("C-"+c.id+"-"+c.type()+" ");
 			}
-			System.out.println();
+			System.out.println("]");
 		}
 	
 	}
 	private static void displayShips() {
 		for(Ship s:ships) {
-			System.out.println("Ship s"+s.id);
+			System.out.println("ship "+s.name);
+			System.out.println("ship id: "+s.id);
 			System.out.println("fuel: "+s.fuel);
-			System.out.println("port: p"+s.currentPort.id);
-			System.out.print("containers: ");
+			System.out.println("port: "+s.currentPort.name);
+			System.out.println("port id: "+s.currentPort.id);
+			System.out.print("containers: [");
 			for(Container c : s.containers) {
-				System.out.print("c"+c.id+" ");
+				System.out.print("C-"+c.id+"-"+c.type()+" ");
 			}
-			System.out.println();
+			System.out.println("]");
 			
 		}
 	}
@@ -78,7 +81,7 @@ public class Main {
 		
 		boolean flag=true;
 		do{
-			System.out.println("Menu:");
+			System.out.println("\n\nMenu:");
 			System.out.println("1)Create a port");
 			System.out.println("2)Create a ship");
 			System.out.println("3)Create a container");
@@ -107,7 +110,7 @@ public class Main {
 					System.out.println("Enter the longitude: ");
 					double y=sc.nextDouble();
 					ports.add(new Port(port_ID,name,x,y));
-					System.out.println("Port "+name+" added successfully, \nport "+name+"coordinates: ("+x+", "+y+")");
+					System.out.println("Port "+name+" added successfully,\nPort ID:"+port_ID+" \nport "+name+" coordinates: ("+x+", "+y+")");
 					break;
 					
 				}
@@ -120,7 +123,7 @@ public class Main {
 					}
 					System.out.println("Enter ship name: ");
 					String name = sc.next();
-					System.out.println("Enter the port ID in which the ship is present:- ");
+					System.out.println("Enter the port ID in which the ship is present: ");
 					int port_ID=sc.nextInt();
 					Port p = getPortById(port_ID);
 					if(p==null) {
@@ -140,7 +143,7 @@ public class Main {
 					System.out.println("Enter FuelConsumption per kilometer: ");
 					double fuelConsumptionPerKM=sc.nextDouble();
 					ships.add(new Ship(ship_ID,name,p,totalWeightCapacity,maxNumberOfAllContainers,maxNumberOfHeavyContainers,maximumNumberOfRefrigeratedContainers,maximumNumberOfLiquidContainers,fuelConsumptionPerKM));
-					System.out.println("Ship "+name+" created in the port "+p.name+" successfully");
+					System.out.println("Ship "+name+" created in the port "+p.name+" successfully \nShip ID: "+ship_ID);
 					break;
 				}
 				case 3: {
@@ -191,14 +194,14 @@ public class Main {
 					break;
 				}
 				case 4: {
-					System.out.println("Enter the ship ID to load the container in it:- ");
+					System.out.println("Enter the ship ID to load the container in it: ");
 					int ship_ID=sc.nextInt();
 					Ship s = getShipById(ship_ID);
 					if(s==null) {
 						System.out.println("Ship with id "+ship_ID+" not found!");
 						break;
 					}
-					System.out.println("Enter the container ID that needs to be loaded:- ");
+					System.out.println("Enter the container ID that needs to be loaded: ");
 					int cont_ID=sc.nextInt();
 					Container c = getContainerById(cont_ID);
 					if(c==null) {
@@ -215,14 +218,14 @@ public class Main {
 					break;
 				}
 				case 5: {
-					System.out.println("Enter the ship ID to unload the container from it:- ");
+					System.out.println("Enter the ship ID to unload the container from it: ");
 					int ship_ID=sc.nextInt();
 					Ship s = getShipById(ship_ID);
 					if(s==null) {
 						System.out.println("Ship "+ship_ID+" not found!");
 						break;
 					}
-					System.out.println("Enter the container ID that needs to be unloaded:- ");
+					System.out.println("Enter the container ID that needs to be unloaded: ");
 					int cont_ID=sc.nextInt();
 					Container c = getContainerById(cont_ID);
 					if(c==null) {
@@ -232,6 +235,11 @@ public class Main {
 					boolean isUnLoaded = s.unLoad(c);
 					if(isUnLoaded) {
 						System.out.println("The container "+cont_ID+" is unloaded from the ship "+s.name+" successfully");
+						if(c.bill!=0) {
+						System.out.println("Bill for Container: C-"+cont_ID+"-"+c.type()+" is: $"+String.format("%.2f",c.bill));
+						System.out.println("Kindly pay the bill amount $"+String.format("%.2f",c.bill)+" in our shipping portal");
+						c.bill=0;
+						}
 					}else {
 						System.out.println("Unloading unsuccessful!");
 					}
@@ -239,14 +247,14 @@ public class Main {
 					break;
 				}
 				case 6: {
-					System.out.println("Enter the ID of the ship that needed to visit another port:- ");
+					System.out.println("Enter the ID of the ship that needed to visit another port: ");
 					int ship_ID=sc.nextInt();
 					Ship s = getShipById(ship_ID);
 					if(s==null) {
 						System.out.println("Ship "+ship_ID+" not found!");
 						break;
 					}
-					System.out.println("Enter the ID of the port which is the next destination of the ship:- ");
+					System.out.println("Enter the ID of the port which is the next destination of the ship: ");
 					int port_ID=sc.nextInt();
 					Port p = getPortById(port_ID);
 					if(p==null) {
@@ -262,17 +270,17 @@ public class Main {
 					break;
 				}
 				case 7: {
-					System.out.println("Enter the shipID to refuel:- ");
+					System.out.println("Enter the shipID to refuel: ");
 					int ship_ID=sc.nextInt();
 					Ship s = getShipById(ship_ID);
 					if(s==null) {
 						System.out.println("Ship "+ship_ID+" not found!");
 						break;
 					}
-					System.out.println("Enter the quantity of fuel:- ");
+					System.out.println("Enter the quantity of fuel: ");
 					double fuel=sc.nextDouble();
 					s.reFuel(fuel);
-					System.out.println("The ship "+s.name+" refueled successfully, the current fuel amount:- "+s.fuel);
+					System.out.println("The ship "+s.name+" refueled successfully, the current fuel amount: "+String.format("%.2f",s.fuel));
 					break;
 				}
 				case 8: {
