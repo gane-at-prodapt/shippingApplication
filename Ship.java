@@ -56,7 +56,7 @@ public class Ship implements IShip{
 		}
 		if(containerFound) {
 			if(cont.weight>this.totalWeightCapacity) {
-				System.out.println("Container weight is very high");
+				System.out.println("Ship's weight limit reached, available space: "+this.totalWeightCapacity);
 				return false;
 			}else {
 				if(cont.type()=="basic") {
@@ -73,7 +73,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
-						System.out.println("Invalid maximum number of containers");
+						System.out.println("Maximum number of containers loaded");
 						return false;
 					}
 				}else if(cont.type()=="heavy") {
@@ -91,7 +91,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
-						System.out.println("Invalid maximum number of heavy containers");
+						System.out.println("Maximum number of heavy containers loaded");
 						return false;
 					}
 					
@@ -111,7 +111,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
-						System.out.println("Invalid maximum number of refrigerated containers");
+						System.out.println("Maximum number of refrigerated containers loaded");
 						return false;
 					}
 				}else {
@@ -130,7 +130,7 @@ public class Ship implements IShip{
 						this.totalWeightCapacity-=cont.weight;
 						return true;
 					}else {
-						System.out.println("Invalid maximum number of liquid containers");
+						System.out.println("Maximum number of liquid containers loaded");
 						return false;
 					}
 				}
@@ -145,7 +145,7 @@ public class Ship implements IShip{
 	@Override
 	public void reFuel(double newFuel) {
 		System.out.println("Current fuel level:- "+this.fuel);
-		System.out.println("Fuelling the ship now!!!");
+		System.out.println("Fueling the ship now!!!");
 		this.fuel+=newFuel;
 	}
 	
@@ -196,7 +196,7 @@ public class Ship implements IShip{
 				return true;
 			}
 		}else {
-			System.out.println("Container not found");
+			System.out.println("Container not found in ship "+this.id);
 			return false;
 		}
 	}

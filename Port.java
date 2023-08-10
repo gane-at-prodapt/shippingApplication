@@ -21,17 +21,13 @@ public class Port implements IPort{
 	public void outgoingShip(Ship s) {
 		current.remove(s);
 		
-		Boolean not_found=true;
-		
 		for(Ship i: history) {
 			if(s.equals(i)) {
-				not_found=false;
+				history.remove(i);
 				break;
 			}
 		}
-		if(not_found) {
-			history.add(s);
-		}
+		history.add(s);
 	}
 	
 	Port(int id, double x, double y){
