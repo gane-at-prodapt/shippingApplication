@@ -238,7 +238,6 @@ public class Main {
 						System.out.println("The container "+cont_ID+" is unloaded from the ship "+s.name+" successfully");
 						if(c.bill!=0) {
 						System.out.println("Bill for Container: C-"+cont_ID+"-"+c.type()+" is: $"+String.format("%.2f",c.bill));
-						System.out.println("Kindly pay the bill amount $"+String.format("%.2f",c.bill)+" in our shipping portal");
 						c.bill=0;
 						}
 					}else {
