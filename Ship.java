@@ -77,6 +77,8 @@ public class Ship implements IShip{
 						this.containers.add(cont); 
 						this.maxNumberOfAllContainers--;
 						this.totalWeightCapacity-=cont.weight;
+						cont.currentPort=null;
+						cont.currentShip=this;
 						return true;
 					}else {
 						System.out.println("Maximum number of containers loaded");
@@ -95,6 +97,8 @@ public class Ship implements IShip{
 						this.maxNumberOfAllContainers--;
 						this.maxNumberOfHeavyContainers--;
 						this.totalWeightCapacity-=cont.weight;
+						cont.currentPort=null;
+						cont.currentShip=this;
 						return true;
 					}else {
 						System.out.println("Maximum number of heavy containers loaded");
@@ -115,6 +119,8 @@ public class Ship implements IShip{
 						this.maxNumberOfHeavyContainers--;
 						this.maxNumberOfRefrigeratedContainers--;
 						this.totalWeightCapacity-=cont.weight;
+						cont.currentPort=null;
+						cont.currentShip=this;
 						return true;
 					}else {
 						System.out.println("Maximum number of refrigerated containers loaded");
@@ -134,6 +140,8 @@ public class Ship implements IShip{
 						this.maxNumberOfHeavyContainers--;
 						this.maxNumberOfLiquidContainers--;
 						this.totalWeightCapacity-=cont.weight;
+						cont.currentPort=null;
+						cont.currentShip=this;
 						return true;
 					}else {
 						System.out.println("Maximum number of liquid containers loaded");
@@ -150,7 +158,7 @@ public class Ship implements IShip{
 	
 	@Override
 	public void reFuel(double newFuel) {
-		System.out.println("Current fuel level:- "+this.fuel);
+		System.out.println("Current fuel level: "+this.fuel);
 		System.out.println("Fueling the ship now!!!");
 		this.fuel+=newFuel;
 	}
@@ -172,6 +180,8 @@ public class Ship implements IShip{
 				this.currentPort.containers.add(cont);
 				this.maxNumberOfAllContainers++;
 				this.totalWeightCapacity+=cont.weight;
+				cont.currentPort=this.currentPort;
+				cont.currentShip=null;
 				return true;
 				
 			}else if(cont.type()=="heavy") {
@@ -181,6 +191,9 @@ public class Ship implements IShip{
 				this.maxNumberOfAllContainers++;
 				this.maxNumberOfHeavyContainers++;
 				this.totalWeightCapacity+=cont.weight;
+				
+				cont.currentPort=this.currentPort;
+				cont.currentShip=null;
 	
 				return true;
 				
@@ -192,6 +205,9 @@ public class Ship implements IShip{
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfRefrigeratedContainers++;
 				this.totalWeightCapacity+=cont.weight;
+				
+				cont.currentPort=this.currentPort;
+				cont.currentShip=null;
 	
 				return true;
 				
@@ -202,6 +218,9 @@ public class Ship implements IShip{
 				this.maxNumberOfHeavyContainers++;
 				this.maxNumberOfLiquidContainers++;
 				this.totalWeightCapacity+=cont.weight;
+				
+				cont.currentPort=this.currentPort;
+				cont.currentShip=null;
 
 				return true;
 			}

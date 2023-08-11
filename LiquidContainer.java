@@ -2,8 +2,8 @@ package shippingApplication;
 
 public class LiquidContainer extends HeavyContainer{
 
-	LiquidContainer(int id, int weight) {
-		super(id, weight);
+	LiquidContainer(int id, int weight,Port currentPort) {
+		super(id, weight, currentPort);
 	}
 	
 	@Override

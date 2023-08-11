@@ -91,7 +91,8 @@ public class Main {
 			System.out.println("7)Refuel Ship");
 			System.out.println("8)Display Ports");
 			System.out.println("9)Display Ships");
-			System.out.println("10)Quit");
+			System.out.println("10)Track containers");
+			System.out.println("11)Quit");
 			System.out.println("Enter you choice: ");
 			int n=sc.nextInt();
 			switch(n)
@@ -164,8 +165,8 @@ public class Main {
 					}
 					
 					if(weight<=3000) {
-						containers.add(new BasicContainer(cont_ID,weight));
-						p.containers.add(new BasicContainer(cont_ID,weight));
+						containers.add(new BasicContainer(cont_ID,weight,p));
+						p.containers.add(new BasicContainer(cont_ID,weight,p));
 						System.out.println("Basic container " +cont_ID+ " successfully created in port "+p.name);
 						
 					}else {
@@ -175,16 +176,16 @@ public class Main {
 									+ " Enter H to continue as normal heavy container");
 							type = sc.next();
 							if(type.equalsIgnoreCase("H")) {
-								containers.add(new HeavyContainer(cont_ID,weight));
-								p.containers.add(new HeavyContainer(cont_ID,weight));
+								containers.add(new HeavyContainer(cont_ID,weight,p));
+								p.containers.add(new HeavyContainer(cont_ID,weight,p));
 								System.out.println("Normal heavy container "+cont_ID+" successfully created in port "+p.name);
 							}else if(type.equalsIgnoreCase("R")) {
-								containers.add(new RefrigeratedContainer(cont_ID,weight));
-								p.containers.add(new RefrigeratedContainer(cont_ID,weight));
+								containers.add(new RefrigeratedContainer(cont_ID,weight,p));
+								p.containers.add(new RefrigeratedContainer(cont_ID,weight,p));
 								System.out.println("Refrigerated container "+cont_ID+" successfully created in port "+p.name);
 							}else if(type.equalsIgnoreCase("L")) {
-								containers.add(new LiquidContainer(cont_ID,weight));
-								p.containers.add(new LiquidContainer(cont_ID,weight));
+								containers.add(new LiquidContainer(cont_ID,weight,p));
+								p.containers.add(new LiquidContainer(cont_ID,weight,p));
 								System.out.println("Liquid container "+cont_ID+" successfully created in port"+p.name);
 							}else {
 								System.out.println("Invalid response, try again!");
@@ -301,7 +302,14 @@ public class Main {
 					}
 					break;
 				}
-				case 10:{
+				case 10: {
+					System.out.println("Enter the container ID:");
+					int cont_ID=sc.nextInt();
+					Container c=getContainerById(cont_ID);
+					System.out.println(c.trackContainer());
+					break;
+				}
+				case 11:{
 					flag = false;
 					System.out.println("*******Thank you*******");
 					System.out.println("*******Program terminating*******");
