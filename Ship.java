@@ -150,7 +150,7 @@ public class Ship implements IShip{
 				}
 			}
 		}else {
-			System.out.println("Container not found in port "+this.currentPort.id);
+			System.out.println("Container not found in port "+this.currentPort.name);
 			return false;
 		}
 		
@@ -225,7 +225,7 @@ public class Ship implements IShip{
 				return true;
 			}
 		}else {
-			System.out.println("Container not found in ship "+this.id);
+			System.out.println("Container not found in ship "+this.name);
 			return false;
 		}
 	}
